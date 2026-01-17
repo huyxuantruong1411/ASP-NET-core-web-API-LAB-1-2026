@@ -1,0 +1,700 @@
+=== Project Tree ===
+D:\work\KTTKPM\TH\lab1\StudentAPI/
+├── appsettings.Development.json
+├── appsettings.json
+├── aspnet_project_dump.txt
+├── Controllers/
+│   ├── StudentsController.cs
+│   └── WeatherForecastController.cs
+├── Data/
+│   └── ApplicationDbContext.cs
+├── DTOs/
+│   └── StudentDTO.cs
+├── dump_project.py
+├── Migrations/
+│   ├── 20260117014514_InitialCreate.cs
+│   ├── 20260117014514_InitialCreate.Designer.cs
+│   └── ApplicationDbContextModelSnapshot.cs
+├── Models/
+│   └── Student.cs
+├── Program.cs
+├── Properties/
+│   └── launchSettings.json
+├── StudentAPI.csproj
+├── StudentAPI.csproj.user
+├── StudentAPI.http
+├── StudentAPI.sln
+└── WeatherForecast.cs
+
+=== Project Tree (Markdown) ===
+# Project Structure
+- appsettings.Development.json
+- appsettings.json
+- aspnet_project_dump.txt
+- **Controllers/**
+  - StudentsController.cs
+  - WeatherForecastController.cs
+- **Data/**
+  - ApplicationDbContext.cs
+- **DTOs/**
+  - StudentDTO.cs
+- dump_project.py
+- **Migrations/**
+  - 20260117014514_InitialCreate.cs
+  - 20260117014514_InitialCreate.Designer.cs
+  - ApplicationDbContextModelSnapshot.cs
+- **Models/**
+  - Student.cs
+- Program.cs
+- **Properties/**
+  - launchSettings.json
+- StudentAPI.csproj
+- StudentAPI.csproj.user
+- StudentAPI.http
+- StudentAPI.sln
+- WeatherForecast.cs
+
+=== Project Tree (JSON) ===
+{
+  "name": "StudentAPI",
+  "type": "folder",
+  "children": [
+    {
+      "name": "appsettings.Development.json",
+      "type": "file"
+    },
+    {
+      "name": "appsettings.json",
+      "type": "file"
+    },
+    {
+      "name": "aspnet_project_dump.txt",
+      "type": "file"
+    },
+    {
+      "name": "Controllers",
+      "type": "folder",
+      "children": [
+        {
+          "name": "StudentsController.cs",
+          "type": "file"
+        },
+        {
+          "name": "WeatherForecastController.cs",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "Data",
+      "type": "folder",
+      "children": [
+        {
+          "name": "ApplicationDbContext.cs",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "DTOs",
+      "type": "folder",
+      "children": [
+        {
+          "name": "StudentDTO.cs",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "dump_project.py",
+      "type": "file"
+    },
+    {
+      "name": "Migrations",
+      "type": "folder",
+      "children": [
+        {
+          "name": "20260117014514_InitialCreate.cs",
+          "type": "file"
+        },
+        {
+          "name": "20260117014514_InitialCreate.Designer.cs",
+          "type": "file"
+        },
+        {
+          "name": "ApplicationDbContextModelSnapshot.cs",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "Models",
+      "type": "folder",
+      "children": [
+        {
+          "name": "Student.cs",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "Program.cs",
+      "type": "file"
+    },
+    {
+      "name": "Properties",
+      "type": "folder",
+      "children": [
+        {
+          "name": "launchSettings.json",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "StudentAPI.csproj",
+      "type": "file"
+    },
+    {
+      "name": "StudentAPI.csproj.user",
+      "type": "file"
+    },
+    {
+      "name": "StudentAPI.http",
+      "type": "file"
+    },
+    {
+      "name": "StudentAPI.sln",
+      "type": "file"
+    },
+    {
+      "name": "WeatherForecast.cs",
+      "type": "file"
+    }
+  ]
+}
+
+=== Project Files Content ===
+
+=== Folder: D:\work\KTTKPM\TH\lab1\StudentAPI ===
+
+--- File: D:\work\KTTKPM\TH\lab1\StudentAPI\appsettings.Development.json ---
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  }
+}
+
+
+--- File: D:\work\KTTKPM\TH\lab1\StudentAPI\appsettings.json ---
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=DESKTOP-HKIPI1M;Database=StudentsDB;Trusted_Connection=True;TrustServerCertificate=True;"
+  }
+}
+
+--- File: D:\work\KTTKPM\TH\lab1\StudentAPI\Program.cs ---
+﻿using Microsoft.EntityFrameworkCore;
+using StudentAPI.Data;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Đăng ký Controllers và cấu hình JSON để giữ nguyên tên thuộc tính
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = null;
+    });
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Đăng ký DbContext với SQL Server
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
+
+app.Run();
+
+--- File: D:\work\KTTKPM\TH\lab1\StudentAPI\StudentAPI.csproj ---
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+</Project>
+
+
+--- File: D:\work\KTTKPM\TH\lab1\StudentAPI\StudentAPI.sln ---
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36414.22 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentAPI", "StudentAPI.csproj", "{C49FF609-B8D3-442A-B823-E965AA1AE2F0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C49FF609-B8D3-442A-B823-E965AA1AE2F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C49FF609-B8D3-442A-B823-E965AA1AE2F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C49FF609-B8D3-442A-B823-E965AA1AE2F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C49FF609-B8D3-442A-B823-E965AA1AE2F0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9CFCF020-F92E-4159-9ADD-29D01DF02265}
+	EndGlobalSection
+EndGlobal
+
+
+--- File: D:\work\KTTKPM\TH\lab1\StudentAPI\WeatherForecast.cs ---
+namespace StudentAPI
+{
+    public class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+
+        public int TemperatureC { get; set; }
+
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+
+        public string? Summary { get; set; }
+    }
+}
+
+
+=== Folder: Controllers ===
+
+--- File: D:\work\KTTKPM\TH\lab1\StudentAPI\Controllers\StudentsController.cs ---
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using StudentAPI.Data;
+using StudentAPI.DTOs;
+using StudentAPI.Models;
+
+namespace StudentAPI.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class StudentsController : ControllerBase
+    {
+        private readonly ApplicationDbContext _context;
+
+        public StudentsController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<StudentDTO>>> GetStudents()
+        {
+            var students = await _context.Students.ToListAsync();
+            return Ok(students.Select(s => new StudentDTO { Name = s.Name, Email = s.Email }));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<StudentDTO>> GetStudent(int id)
+        {
+            var student = await _context.Students.FindAsync(id);
+            if (student == null) return NotFound();
+
+            return Ok(new StudentDTO { Name = student.Name, Email = student.Email });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<StudentDTO>> CreateStudent(StudentDTO studentDTO)
+        {
+            var student = new Student
+            {
+                Name = studentDTO.Name,
+                Email = studentDTO.Email
+            };
+
+            _context.Students.Add(student);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetStudent), new { id = student.Id }, studentDTO);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateStudent(int id, StudentDTO studentDTO)
+        {
+            var student = await _context.Students.FindAsync(id);
+            if (student == null) return NotFound();
+
+            student.Name = studentDTO.Name;
+            student.Email = studentDTO.Email;
+
+            _context.Entry(student).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteStudent(int id)
+        {
+            var student = await _context.Students.FindAsync(id);
+            if (student == null) return NotFound();
+
+            _context.Students.Remove(student);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+    }
+}
+
+--- File: D:\work\KTTKPM\TH\lab1\StudentAPI\Controllers\WeatherForecastController.cs ---
+using Microsoft.AspNetCore.Mvc;
+
+namespace StudentAPI.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class WeatherForecastController : ControllerBase
+    {
+        private static readonly string[] Summaries = new[]
+        {
+            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+        };
+
+        private readonly ILogger<WeatherForecastController> _logger;
+
+        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        {
+            _logger = logger;
+        }
+
+        [HttpGet(Name = "GetWeatherForecast")]
+        public IEnumerable<WeatherForecast> Get()
+        {
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            })
+            .ToArray();
+        }
+    }
+}
+
+
+=== Folder: Data ===
+
+--- File: D:\work\KTTKPM\TH\lab1\StudentAPI\Data\ApplicationDbContext.cs ---
+﻿using Microsoft.EntityFrameworkCore;
+using StudentAPI.Models;
+
+namespace StudentAPI.Data
+{
+    public class ApplicationDbContext : DbContext
+    {
+        public DbSet<Student> Students { get; set; }
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Student>().HasData(
+                new Student { Id = 1, Name = "John Doe", Email = "john.doe@example.com" },
+                new Student { Id = 2, Name = "Jane Smith", Email = "jane.smith@example.com" }
+            );
+        }
+    }
+}
+
+=== Folder: DTOs ===
+
+--- File: D:\work\KTTKPM\TH\lab1\StudentAPI\DTOs\StudentDTO.cs ---
+﻿namespace StudentAPI.DTOs
+{
+    public class StudentDTO
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+    }
+}
+
+=== Folder: Migrations ===
+
+--- File: D:\work\KTTKPM\TH\lab1\StudentAPI\Migrations\20260117014514_InitialCreate.cs ---
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
+namespace StudentAPI.Migrations
+{
+    /// <inheritdoc />
+    public partial class InitialCreate : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: "Students",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Students", x => x.Id);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Students",
+                columns: new[] { "Id", "Email", "Name" },
+                values: new object[,]
+                {
+                    { 1, "john.doe@example.com", "John Doe" },
+                    { 2, "jane.smith@example.com", "Jane Smith" }
+                });
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "Students");
+        }
+    }
+}
+
+
+--- File: D:\work\KTTKPM\TH\lab1\StudentAPI\Migrations\20260117014514_InitialCreate.Designer.cs ---
+﻿// <auto-generated />
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using StudentAPI.Data;
+
+#nullable disable
+
+namespace StudentAPI.Migrations
+{
+    [DbContext(typeof(ApplicationDbContext))]
+    [Migration("20260117014514_InitialCreate")]
+    partial class InitialCreate
+    {
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        {
+#pragma warning disable 612, 618
+            modelBuilder
+                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("StudentAPI.Models.Student", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Students");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "john.doe@example.com",
+                            Name = "John Doe"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "jane.smith@example.com",
+                            Name = "Jane Smith"
+                        });
+                });
+#pragma warning restore 612, 618
+        }
+    }
+}
+
+
+--- File: D:\work\KTTKPM\TH\lab1\StudentAPI\Migrations\ApplicationDbContextModelSnapshot.cs ---
+﻿// <auto-generated />
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using StudentAPI.Data;
+
+#nullable disable
+
+namespace StudentAPI.Migrations
+{
+    [DbContext(typeof(ApplicationDbContext))]
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    {
+        protected override void BuildModel(ModelBuilder modelBuilder)
+        {
+#pragma warning disable 612, 618
+            modelBuilder
+                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("StudentAPI.Models.Student", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Students");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "john.doe@example.com",
+                            Name = "John Doe"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "jane.smith@example.com",
+                            Name = "Jane Smith"
+                        });
+                });
+#pragma warning restore 612, 618
+        }
+    }
+}
+
+
+=== Folder: Models ===
+
+--- File: D:\work\KTTKPM\TH\lab1\StudentAPI\Models\Student.cs ---
+﻿namespace StudentAPI.Models
+{
+    public class Student
+    {
+        public int Id { get; set; } // Khóa chính
+        public string Name { get; set; }
+        public string Email { get; set; }
+    }
+}
+
+=== Folder: Properties ===
+
+--- File: D:\work\KTTKPM\TH\lab1\StudentAPI\Properties\launchSettings.json ---
+﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:3890",
+      "sslPort": 44353
+    }
+  },
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:5232",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "https": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "https://localhost:7247;http://localhost:5232",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
+
